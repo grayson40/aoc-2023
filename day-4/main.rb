@@ -39,7 +39,43 @@ def part_1()
   end
 
   # Return total_points
-  return total_points
+  total_points
+end
+
+def part_2()
+  # Read the file and store the lines
+  cards = File.readlines('input.txt').map(&:strip)
+
+  # Array to hold the count of matching numbers for each card
+  matches = []
+
+  # Process each card to count matches
+  cards.each do |card|
+    my_numbers, winning_numbers = card.split(':')[1].split('|')
+    winning_numbers_set = Set.new(winning_numbers.split(' '))
+    match_count = my_numbers.split(' ').count { |num| winning_numbers_set.include?(num) }
+    matches << match_count
+  end
+
+  # Array to hold the influence multiplier for each card
+  multipliers = Array.new(cards.size, 1)
+
+  # Process each card to calculate its influence on subsequent cards
+  matches.each_with_index do |match_count, index|
+    # Update multipliers for subsequent cards
+    (1..match_count).each do |offset|
+      next_index = index + offset
+      break if next_index >= cards.size
+      multipliers[next_index] += multipliers[index]
+    end
+  end
+
+  # Calculate the total number of cards
+  total_cards = multipliers.sum
+
+  # Return total_cards
+  total_cards
 end
 
 puts part_1()
+puts part_2()
