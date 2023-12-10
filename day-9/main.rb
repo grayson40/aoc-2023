@@ -57,7 +57,7 @@ def part_2()
     reversed_history = sequence_history.reverse.dup
     reversed_history.each_with_index do |current_sequence, current_sequence_index|
       # If all numbers in current sequence are the same, append the last number
-      # Else, append the sum of the last number in the previous sequence and the last number in the current sequence
+      # Else, prepend the difference of the first number in the current sequence and the first number in the previous sequence
       if current_sequence.all?(current_sequence[0])
         reversed_history[current_sequence_index].unshift(current_sequence[0])
       else
@@ -66,7 +66,7 @@ def part_2()
       end
     end
 
-    # Append the last number in the last sequence to the final numbers array
+    # Append the first number in the last sequence to the final numbers array
     final_numbers << reversed_history[-1][0]
   end
 
